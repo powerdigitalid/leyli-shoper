@@ -1,4 +1,6 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from "next/document";
+import LandingScripts from "../components/landing/utils/scripts";
+import AdminScripts from "../components/admin/utils/scripts";
 
 export default function Document() {
   return (
@@ -7,7 +9,10 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        {/* <LandingScripts /> */}
+        {/* <AdminScripts /> */}
       </body>
     </Html>
-  )
+  );
 }
+
