@@ -7,7 +7,8 @@ import '../public/dist/vendors/nice-select/nice-select.css'
 import '../public/dist/css/style.css'
 
 // assets admin page
-import "../public/dist/admin/css/style.css"
+import "../public/dist/admin/css/ruang-admin.min.css"
+// import "../public/dist/admin/css/style.css"
 // import "../public/dist/admin/css/jquery.mCustomScrollbar.css"
 
 export default function App({ Component, pageProps }) {
