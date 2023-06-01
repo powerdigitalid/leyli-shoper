@@ -9,7 +9,7 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
+ 
 model user {
   id        Int      @id @default(autoincrement())
   name      String
@@ -17,4 +17,25 @@ model user {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model Product {
+  id    Int     @id @default(autoincrement())
+  name  String
+  price Float
+  desc  String?
+  image String
+  order Order[]
+}
+
+model Order {
+  id        Int     @id @default(autoincrement())
+  name      String?
+  date      String
+  total     Float?
+  addres    String?
+  phone     String?
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  state     String? @default("unconfirmed")
 }
