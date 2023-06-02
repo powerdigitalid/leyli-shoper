@@ -1,6 +1,52 @@
 import React from "react";
+import {useState, useEffect} from 'react'
 
 export default function Tabeluser() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  
+  const handleUser = () => {
+    fetch('/api/user/all', {
+      method: "GET",
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          setData(res.data);
+        } else {
+          setData([]);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(err);
+      });
+  };
+
+  useEffect(() => {
+    handleUser();
+  }, []);
+
+  const handleDeleteData = (id) => {
+    fetch(`/api/user/delete?id=${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          handleUser();
+          alert("Data berhasil dihapus");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Data gagal dihapus");
+      });
+  };
+
   return (
     <div>
       <div className="card author-box card-primary mt-2">
@@ -92,21 +138,17 @@ export default function Tabeluser() {
                           </tr>
                         </tfoot>
                         <tbody>
-                          <tr role="row" className="odd">
-                            <td className="sorting_1">Tiger Nixon</td>
-                            <td>example@gnail.com</td>
-                            <td><button className="btn btn-danger">Hapus</button></td>
+                        {data.length > 0 ? data.map((users, index) => (
+                          <tr role="row" className="odd" key={index}>
+                            <td className="sorting_1">{users.username}</td>
+                            <td>{users.password}</td>
+                            <td><button className="btn btn-danger" onClick={handleDeleteData}>Hapus</button></td>
                           </tr>
-                          <tr role="row" className="odd">
-                            <td className="sorting_1">Tiger Nixon</td>
-                            <td>example@gnail.com</td>
-                            <td><button className="btn btn-danger">Hapus</button></td>
-                          </tr>
-                          <tr role="row" className="odd">
-                            <td className="sorting_1">Tiger Nixon</td>
-                            <td>example@gnail.com</td>
-                            <td><button className="btn btn-danger">Hapus</button></td>
-                          </tr>
+                          )) : (
+                            <tr>
+                                <td colSpan="3" className="text-center">No Data</td>
+                            </tr>
+                        )}
                         </tbody>
                       </table>
                     </div>

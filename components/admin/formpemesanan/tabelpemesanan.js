@@ -1,7 +1,64 @@
 import Link from "next/link";
 import React from "react";
+import {useState, useEffect} from 'react'
+import { useRouter } from "next/router";
 
 export default function Tabelpemesanan() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const router = useRouter();
+  
+
+
+  const handleTabelOrder = ()=>{
+    fetch('/api/orders/orderCart?state=uncormirmed', {
+      method: "GET",
+  })
+      .then((res) => res.json())
+      .then((res) => {
+          if (res.data) {
+              setData(res.data);
+          } else {
+              setData([]);
+          }
+          setLoading(false);
+      })
+      .catch((err) => {
+          console.log(err);
+          setLoading(false);
+          setError(err);
+      });
+  }
+  useEffect(() => {
+    handleTabelOrder();
+  }, []);
+
+  const handleConfirm = (e,id)=>{
+    e.preventDefault();
+    fetch(`/api/orders/confirm`, {
+      method: "PATCH",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({id: id}),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.data) {
+        alert("Order berhasil dikonfirmasi");
+        handleTabelOrder();
+      } else {
+        alert("Order gagal dikonfirmasi");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("Order gagal dikonfirmasi");
+    });
+  }
+
+
   return (
     <div>
       <div className="card author-box card-primary mt-2">
@@ -51,7 +108,7 @@ export default function Tabelpemesanan() {
                               colSpan={1}
                               aria-sort="ascending"
                               aria-label="Name: activate to sort column descending"
-                              style={{ width: "148.781px" }}
+                              style={{ width: "100.781px" }}
                             >
                               Name
                             </th>
@@ -62,9 +119,20 @@ export default function Tabelpemesanan() {
                               rowSpan={1}
                               colSpan={1}
                               aria-label="Position: activate to sort column ascending"
-                              style={{ width: "238.031px" }}
+                              style={{ width: "100.031px" }}
                             >
-                              Email
+                              Nomor Hp
+                            </th>
+                            <th
+                              className="sorting"
+                              tabIndex={0}
+                              aria-controls="dataTable"
+                              rowSpan={1}
+                              colSpan={1}
+                              aria-label="Position: activate to sort column ascending"
+                              style={{ width: "80.031px" }}
+                            >
+                              Status
                             </th>
                             <th
                               className="sorting"
@@ -73,35 +141,28 @@ export default function Tabelpemesanan() {
                               rowSpan={1}
                               colSpan={1}
                               aria-label="Office: activate to sort column ascending"
-                              style={{ width: "108.953px" }}
+                              style={{ width: "200.953px" }}
                             >
                               Action
                             </th>
                           </tr>
                         </thead>
-                        <tfoot>
-                          <tr>
-                            <th rowSpan={1} colSpan={1}>
-                              Name
-                            </th>
-                            <th rowSpan={1} colSpan={1}>
-                              Email
-                            </th>
-                            <th rowSpan={1} colSpan={1}>
-                              Action
-                            </th>
-                          </tr>
-                        </tfoot>
+                        
                         <tbody>
-                          <tr role="row" className="odd">
-                            <td className="sorting_1">Tiger Nixon</td>
-                            <td>xample@gmial.com</td>
+                        {data.length > 0 ? data.map((ord, index) => (
+                          <tr role="row" className="odd" key={index}>
+                            <td className="sorting_1">{ord.name}</td>
+                            <td>{ord.phone}</td>
+                            <td>{ord.state}</td>
                             <td>
-                                <Link href="/admin/pemesanan/detail" className="btn btn-primary">Detail</Link>
-                                <button className="btn btn-success">Terima</button>
+                                <Link href={`/admin/pemesanan/detail/${ord.id}`}> 
+                                <button className="btn btn-primary">Detail</button>
+                                </Link>
+                                <button className="btn btn-success" onClick={(e) => handleConfirm(e, ord.id)}>Konfirmasi</button>
                                 <button className="btn btn-danger">Hapus</button>
                             </td>
                           </tr>
+                          )) : <p className="text-center">Belum ada Order</p>}
                         </tbody>
                       </table>
                     </div>
@@ -174,4 +235,4 @@ export default function Tabelpemesanan() {
       </div>
     </div>
   );
-}
+};
