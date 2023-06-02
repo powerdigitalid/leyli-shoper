@@ -10,24 +10,26 @@
 
 ### Frontend
 
-- [ ] Dashboar Admin
-- [ ] Input Produk
+- [X] Dashboar Admin
+- [X] Input Produk (belum update produk)
 - [ ] Data Produk (Card)
-- [ ] Data Order
-- [ ] User table (get all, create, delete,update)
-- [ ] Login Admin (json)
-- [ ] Login Customer (google/next auth)
-- [ ] Logout
+- [X] Data Order
+- [X] User table (get all, create, delete,update)
+- [X] Login Admin (json)
+<!-- - [ ] Login Customer (google/next auth) -->
+- [X] Logout
+- [ ] Cart Component
+- [ ] Detail Component
 
 ### Backend
 
-- [ ] Create Produk
-- [ ] Counter Dashboard
-- [ ] CRUD Produk (get all, create)
-- [ ] Input Order Customer 
-- [ ] Data Order
-- [ ] User table (list)
-- [ ] CRUD User
-- [ ] Login (admin)
-- [ ] Login User next auth and firebase
-- [ ] Logout
+- [X] Create Produk
+- [X] Counter Dashboard
+- [X] CRUD Produk (get all, create)
+- [X] Input Order Customer 
+- [X] Data Order
+- [X] User table (list)
+- [X] CRUD User
+- [X] Login (admin)
+<!-- - [ ] Login User next auth and firebase -->
+- [X] Logout
