@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faCartShopping } from "@fortawesome/free-solid-svg-icons";
+
 export default function Navbar() {
   return (
     <>
@@ -65,6 +68,12 @@ export default function Navbar() {
                   </li>
                 </ul>
                 <ul className="nav-shop">
+                <li className="cart">
+                    <a href="/landingpage/cart">
+                    <FontAwesomeIcon icon={faCartShopping} />
+                     Cart
+                    </a>
+                  </li>
                   <li className="nav-item">
                     <a className="button button-header" href="/login">
                       Login
