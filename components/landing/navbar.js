@@ -1,7 +1,38 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [order, setOrder] = useState([]);
+  const [state, setState] = useState("unconfirmed");
+
+  const handleOrder = () => {
+    fetch("/api/orders/orderCart?state=unconfirmed", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          setOrder(res.data);
+        } else {
+          setOrder([]);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(err);
+      });
+  };
+
+  useEffect(() => {
+    handleOrder();
+  }, []);
+
   return (
     <>
       <header className="header_area" id="navbar">
@@ -18,7 +49,7 @@ export default function Navbar() {
               >
                 <ul className="nav navbar-nav menu_nav ml-auto mr-auto">
                   <li className="nav-item active">
-                    <a className="nav-link" href="/#navbar">
+                    <a className="nav-link" href="/">
                       Home
                     </a>
                   </li>
@@ -71,7 +102,7 @@ export default function Navbar() {
                 <li className="cart">
                     <a href="/landingpage/cart">
                     <FontAwesomeIcon icon={faCartShopping} />
-                     Cart
+                     Cart[{order.length}]
                     </a>
                   </li>
                   <li className="nav-item">

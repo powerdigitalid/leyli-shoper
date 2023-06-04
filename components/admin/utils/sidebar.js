@@ -1,7 +1,18 @@
 import Link from "next/link";
 import React from "react";
+import {useRouter} from 'next/router';
+import { useEffect, useState } from "react";
+import { removeCookie } from "../../../libs/cookie.lib";
 
 export default function Sidebar() {
+  const router = useRouter();
+  const [user, setUser] = useState({});
+
+  const handelLogout = () => {
+    removeCookie("token");
+    alert("Logout Success");
+    router.push("/");
+  };
 
   return (
     <div>
@@ -68,7 +79,7 @@ export default function Sidebar() {
           >
             <i className="fas fa-fw fa-table" />
             <span>Pemesanan</span>
-          </Link>
+          </Link> 
         </li>
         <li className="nav-item">
           <Link className="nav-link" href="/admin/history">
@@ -78,7 +89,7 @@ export default function Sidebar() {
         </li>
         <hr className="sidebar-divider" />
         <li className="nav-item">
-          <a className="nav-link" >
+        <a className="nav-link" onClick={handelLogout}>
             <i className="fas fa-fw fa-chart-area" /> 
             <span>Log Out</span>
           </a>
