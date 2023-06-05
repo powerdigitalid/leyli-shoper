@@ -58,6 +58,25 @@ export default function Tabelpemesanan() {
     });
   }
 
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    fetch(`/api/orders/orderCart?id=${id}`, {
+        method: "DELETE",
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            if (res.data) {
+                alert("Berhasil dihapus");
+                handleOrder();
+            } else {
+                alert("Gagal dihapus");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            alert("Terjadi kesalahan saat menghapus data");
+        });
+  };
 
   return (
     <div>
@@ -132,7 +151,7 @@ export default function Tabelpemesanan() {
                               aria-label="Position: activate to sort column ascending"
                               style={{ width: "80.031px" }}
                             >
-                              Status
+                              Alamat
                             </th>
                             <th
                               className="sorting"
@@ -153,13 +172,13 @@ export default function Tabelpemesanan() {
                           <tr role="row" className="odd" key={index}>
                             <td className="sorting_1">{ord.name}</td>
                             <td>{ord.phone}</td>
-                            <td>{ord.state}</td>
+                            <td>{ord.addres}</td>
                             <td>
-                                <Link href={`/admin/pemesanan/detail/${ord.id}`}> 
+                                <Link href={`/admin/pemesanan/detail?id=${ord.id}`}> 
                                 <button className="btn btn-primary">Detail</button>
                                 </Link>
                                 <button className="btn btn-success" onClick={(e) => handleConfirm(e, ord.id)}>Konfirmasi</button>
-                                <button className="btn btn-danger">Hapus</button>
+                                <button className="btn btn-danger" onClick={(e) => handleDelete(e, ord.id)}>Hapus</button>
                             </td>
                           </tr>
                           )) : <p className="text-center">Belum ada Order</p>}

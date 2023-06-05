@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 import {useRouter} from 'next/router'
 
 export default function Cart() {
-  //get and update order from api/orderCart by state
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -37,6 +36,14 @@ export default function Cart() {
       });
   }
 
+  //handle data order clear ketika handle update dilakukan 
+  const handleClear = () => {
+    setName("");
+    setAddres("");
+    setPhone("");
+    setData([]);
+  };
+
   const handleUpdateOrder =(e)=>{
     e.preventDefault()
     fetch('/api/orders/update?state=unconfirmed', {
@@ -56,7 +63,9 @@ export default function Cart() {
           alert("Berhasil diupdate");
           router.push('/checkout')
         } else {
+          setLoading(false);
           alert("Berhasil Manambahkan data diri");
+          handleClear();
         }
       })
       .catch((err) => {
@@ -86,7 +95,6 @@ export default function Cart() {
   };
 
 
-
   useEffect(() => {
     handleOrder()
   }, [])
@@ -107,6 +115,9 @@ export default function Cart() {
                           Continue shopping
                         </a>
                       </h5>
+                      {/* <h6 className="mb-4">
+                        Status : {state}
+                      </h6> */}
                       <hr />
                       <div className="d-flex justify-content-between align-items-center mb-4">
                         <div>

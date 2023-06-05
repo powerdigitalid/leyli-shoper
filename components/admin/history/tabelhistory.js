@@ -39,7 +39,7 @@ export default function Tabelhistory() {
           <div className="col-lg-12">
             <div className="card mb-4">
               <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 className="m-0 font-weight-bold text-primary">Data User</h6>
+                <h6 className="m-0 font-weight-bold text-primary">Data History Transaksi</h6>
               </div>
               <div className="table-responsive p-3">
                 <div
@@ -126,7 +126,7 @@ export default function Tabelhistory() {
                             <td className="sorting_1">{ord.name}</td>
                             <td>{ord.phone}</td>
                             <td>
-                              <Link href="/admin/history/detail" className="btn btn-primary">Detail</Link>
+                              <Link href={`/admin/history/detail?id=${ord.id}`} className="btn btn-primary">Detail</Link>
                             </td>
                           </tr>
                           )) : <p className="text-center">Belum ada Yang Terkonfirmasi</p>}

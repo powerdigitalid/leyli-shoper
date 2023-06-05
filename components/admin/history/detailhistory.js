@@ -1,7 +1,32 @@
 import Link from "next/link";
 import React from "react";
+import {useState, useEffect} from 'react'
+import { useRouter } from 'next/router'
 
 export default function Detailhistory() {
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const router = useRouter()
+  const { id } = router.query
+
+  const handleDetailPesan = async (id) => {
+    try {
+      const res = await fetch(`/api/orders/${id}`)
+      const json = await res.json()
+      setData(json.data)
+      setLoading(false)
+    } catch (error) {
+      setError(true)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      handleDetailPesan(id)
+    }
+  }, [id])
   return (
     <div>
       <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
@@ -39,20 +64,20 @@ export default function Detailhistory() {
                             <div className="d-flex flex-row align-items-center">
                               <div>
                                 <img
-                                  src="/dist/images/item-1.jpg"
+                                  src={data.product?.image}
                                   className="img-fluid rounded-3 mr-3"
                                   alt="Shopping item"
                                   style={{ width: 65 }}
                                 />
                               </div>
                               <div className="ms-3">
-                                <h5>Sepatu Santai</h5>
-                                <p className="small mb-0">Navy Blue</p>
+                                <h5>{data.product?.name}</h5>
+                                <p className="small mb-0">{data.product?.desc}</p>
                               </div>
                             </div>
                             <div className="d-flex flex-row align-items-center">
                               <div style={{ width: 130 }}>
-                                <h5 className="mb-0">Rp. 300.000</h5>
+                                <h5 className="mb-0">{data.product?.price}</h5>
                               </div>
                               <a href="#!" style={{ color: "#cecece" }}>
                                 <i className="fas fa-trash-alt" />
@@ -105,27 +130,19 @@ export default function Detailhistory() {
                           </a>
                           <form className="mt-4">
                             <div className="form-outline form-white mb-4">
-                              <input
-                                type="text"
-                                id="typeName"
-                                className="form-control form-control-lg"
-                                siez={17}
-                                placeholder="Name"
-                              />
+                              <h3 className="form-control form-control-lg">{data.name}</h3>
                               <label className="form-label" htmlFor="typeName">
                                 Nama
                               </label>
                             </div>
                             <div className="form-outline form-white mb-4">
-                              <input
-                                type="text"
-                                id="typeText"
-                                className="form-control form-control-lg"
-                                siez={17}
-                                placeholder="Jl KH Hasyim Ashari"
-                                minLength={19}
-                                maxLength={19}
-                              />
+                            <h3 className="form-control form-control-lg">{data.phone}</h3>
+                              <label className="form-label" htmlFor="typeText">
+                                Nomor Handphone
+                              </label>
+                            </div>
+                            <div className="form-outline form-white mb-4">
+                            <h3 className="form-control form-control-lg">{data.addres}</h3>
                               <label className="form-label" htmlFor="typeText">
                                 Alamat
                               </label>
@@ -133,16 +150,12 @@ export default function Detailhistory() {
                           </form>
                           <hr className="my-4" />
                           <div className="d-flex justify-content-between">
-                            <p className="mb-2">Subtotal</p>
-                            <p className="mb-2">Rp. 300.000</p>
-                          </div>
-                          <div className="d-flex justify-content-between">
                             <p className="mb-2">Shipping</p>
                             <p className="mb-2">Rp. 20.000</p>
                           </div>
                           <div className="d-flex justify-content-between mb-4">
                             <p className="mb-2">Total</p>
-                            <p className="mb-2">Rp. 320.000</p>
+                            <p className="mb-2">Rp.{data.total}</p>
                           </div>
                           <Link
                             href="/admin/history"
