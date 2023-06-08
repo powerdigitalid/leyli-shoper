@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
+import {useRouter} from 'next/router';
+import Swal from "sweetalert2";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -9,6 +11,7 @@ export default function Products() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
+  const router = useRouter();
 
   const handleProduct = () => {
     fetch("/api/produk/all", {
@@ -49,14 +52,32 @@ export default function Products() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Berhasil ditambahkan ke keranjang");
+          router.push("/landingpage/cart");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil ditambahkan ke keranjang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
         } else {
-          alert("Berhasil ditambahkan ke keranjang");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil ditambahkan ke keranjang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          router.push("/landingpage/cart");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Terjadi kesalahan. Silakan coba lagi.");
+        Swal.fire({
+          icon: "error",
+          title: "Gagal ditambahkan ke keranjang",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -83,7 +104,7 @@ export default function Products() {
                         <li>
                           <a
                             className="btn btn-primary"
-                            href="/landingpage/view"
+                            href={`/landingpage/view?id=${prod.id}`}
                           >
                             <i className="ti-eye" />
                           </a>

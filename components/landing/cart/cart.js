@@ -60,17 +60,32 @@ export default function Cart() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Berhasil diupdate");
+          setLoading(false);
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil diupdate",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           router.push('/checkout')
         } else {
           setLoading(false);
-          alert("Berhasil Manambahkan data diri");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil ditambahkan ke keranjang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           handleClear();
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Terjadi kesalahan saat mengupdate data");
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: "Terjadi kesalahan saat menyimpan data",
+        });
       });
   }
 
@@ -82,10 +97,19 @@ export default function Cart() {
         .then((res) => res.json())
         .then((res) => {
             if (res.data) {
-                alert("Berhasil dihapus");
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil dihapus",
+                    showConfirmButton: true,
+                    timer: 1500,
+                });
                 handleOrder();
             } else {
-                alert("Gagal dihapus");
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal",
+                    text: "Terjadi kesalahan saat menghapus data",
+                });
             }
         })
         .catch((err) => {

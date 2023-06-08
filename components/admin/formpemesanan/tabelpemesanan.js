@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import {useState, useEffect} from 'react'
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 export default function Tabelpemesanan() {
   const [data, setData] = useState([]);
@@ -46,15 +47,30 @@ export default function Tabelpemesanan() {
     .then((res) => res.json())
     .then((res) => {
       if (res.data) {
-        alert("Order berhasil dikonfirmasi");
+        Swal.fire({
+          icon: "success",
+          title: "Order berhasil dikonfirmasi",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         handleTabelOrder();
       } else {
-        alert("Order gagal dikonfirmasi");
+        Swal.fire({
+          icon: "error",
+          title: "Order gagal dikonfirmasi",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     })
     .catch((err) => {
       console.log(err);
-      alert("Order gagal dikonfirmasi");
+      Swal.fire({
+        icon: "error",
+        title: "Order gagal dikonfirmasi",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   }
 
@@ -66,15 +82,30 @@ export default function Tabelpemesanan() {
         .then((res) => res.json())
         .then((res) => {
             if (res.data) {
-                alert("Berhasil dihapus");
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil dihapus",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
                 handleOrder();
             } else {
-                alert("Gagal dihapus");
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal dihapus",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             }
         })
         .catch((err) => {
             console.log(err);
-            alert("Terjadi kesalahan saat menghapus data");
+            Swal.fire({
+              icon: "error",
+              title: "Terjadi kesalahan",
+              showConfirmButton: false,
+              timer: 1500,
+          });
         });
   };
 
@@ -178,7 +209,7 @@ export default function Tabelpemesanan() {
                                 <button className="btn btn-primary">Detail</button>
                                 </Link>
                                 <button className="btn btn-success" onClick={(e) => handleConfirm(e, ord.id)}>Konfirmasi</button>
-                                <button className="btn btn-danger" onClick={(e) => handleDelete(e, ord.id)}>Hapus</button>
+                                <button className="btn btn-danger" onClick={() => handleDelete(ord.id)}>Hapus</button>
                             </td>
                           </tr>
                           )) : <p className="text-center">Belum ada Order</p>}

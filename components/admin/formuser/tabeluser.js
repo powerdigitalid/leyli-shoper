@@ -1,5 +1,6 @@
 import React from "react";
 import {useState, useEffect} from 'react'
+import Swal from 'sweetalert2'
 
 export default function Tabeluser() {
   const [data, setData] = useState([]);
@@ -37,13 +38,23 @@ export default function Tabeluser() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
+          Swal.fire({
+            icon: "success",
+            title: "Data berhasil dihapus",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           handleUser();
-          alert("Data berhasil dihapus");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Data gagal dihapus");
+        Swal.fire({
+          icon: "error",
+          title: "Data gagal dihapus",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -142,7 +153,7 @@ export default function Tabeluser() {
                           <tr role="row" className="odd" key={index}>
                             <td className="sorting_1">{users.username}</td>
                             <td>{users.password}</td>
-                            <td><button className="btn btn-danger" onClick={handleDeleteData}>Hapus</button></td>
+                            <td><button className="btn btn-danger" onClick= {() => handleDeleteData(users.id)}>Delete</button></td>
                           </tr>
                           )) : (
                             <tr>

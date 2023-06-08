@@ -1,16 +1,57 @@
-import React from "react";
+import React from 'react'
+import {useState, useEffect} from 'react'
+import {useRouter} from 'next/router'
 
 export default function Editproduct() {
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [image, setImage] = useState(null)
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
+  const [desc, setDesc] = useState('')
+  const router = useRouter()
+
+  const handleUpdateImg = (e) => {
+    setImage(e.target.files[0])
+  }
+
+  const handleUpdateProduct = (e) => {
+    e.preventDefault()
+    const data = new FormData()
+    data.append('name', name)
+    data.append('price', price)
+    data.append('image', image)
+    data.append('desc', desc)
+    setLoading(true)
+    //api update product by id
+    fetch(`/api/produk/update?id=${router.query.id}`, {
+      method: 'PUT',
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false)
+        alert('Produk berhasil diupdate')
+        router.push('/admin/produk')
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+        alert('Produk gagal diupdate')
+      })
+  }
+
+
   return (
     <div>
       <div className="card author-box card-primary">
         <div className="card-body">
           <div className="col-12">
             <div className="">
-              <h2>Tambahkan Product</h2>
+              <h2>Update Product</h2>
             </div>
           </div>
-          <form>
+          <form onSubmit={handleUpdateProduct}>
             <div className="author-box-left">
               <img
                 alt="image"
@@ -24,6 +65,7 @@ export default function Editproduct() {
                   type="file"
                   className="custom-file-input form-control-sm"
                   id="customFile"
+                  onChange={handleUpdateImg}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
                   Choose file
@@ -40,6 +82,9 @@ export default function Editproduct() {
                         type="text"
                         className="form-control form-control-sm"
                         placeholder="Nama Produk"
+                        value = {name}
+                        onChange={(e) => setName(e.target.value)}
+
                       />
                     </div>
                     <div className="form-group col-sm-6">
@@ -55,6 +100,8 @@ export default function Editproduct() {
                           className="form-control form-control-sm"
                           aria-label="Rupiah"
                           placeholder="Harga Produk"
+                          value = {price}
+                          onChange={(e) => setPrice(e.target.value)}
                         />
                         <div className="input-group-append">
                           <span className="form-control form-control-sm text-dark">
@@ -72,6 +119,8 @@ export default function Editproduct() {
                         id="exampleFormControlTextarea1"
                         rows="3"
                         placeholder="Deskripsi Produk"
+                        value = {desc}
+                        onChange={(e) => setDesc(e.target.value)}
                       />
                     </div>
                   </div>

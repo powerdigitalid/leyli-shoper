@@ -1,6 +1,7 @@
 import React from "react";
 import {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
+import Swal from 'sweetalert2'
 
 export default function Inputproduct() {
   const [name, setName] = useState("");
@@ -33,13 +34,23 @@ export default function Inputproduct() {
         setPrice("");
         setDesc("");
         setImage(null);
-        alert("Produk berhasil ditambahkan");
+        Swal.fire({
+          icon: "success",
+          title: "Produk berhasil ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         router.push("/admin/produk");
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        alert("Produk gagal ditambahkan");
+        Swal.fire({
+          icon: "error",
+          title: "Produk gagal ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   }
 
