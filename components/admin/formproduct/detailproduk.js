@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Detailproduk() {
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary">
         <div className="card-body">
           <section className="">

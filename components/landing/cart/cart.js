@@ -72,7 +72,7 @@ export default function Cart() {
           setLoading(false);
           Swal.fire({
             icon: "success",
-            title: "Berhasil ditambahkan ke keranjang",
+            title: "Berhasil dibeli",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -125,7 +125,7 @@ export default function Cart() {
 
   return (
     <div>
-        <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
+        <section className="h-100 h-custom mt-5" style={{ backgroundColor: "#eee" }}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col">
@@ -135,7 +135,6 @@ export default function Cart() {
                     <div className="col-lg-7">
                       <h5 className="mb-3">
                         <a href="#!" className="text-body">
-                          <i className="fas fa-long-arrow-alt-left me-2" />
                           Continue shopping
                         </a>
                       </h5>
@@ -145,16 +144,7 @@ export default function Cart() {
                       <hr />
                       <div className="d-flex justify-content-between align-items-center mb-4">
                         <div>
-                          <p className="mb-1">Shopping cart</p>
-                          <p className="mb-0">Kamu memiliki {data.length} Barang</p>
-                        </div>
-                        <div>
-                          <p className="mb-0">
-                            <span className="text-muted"></span>{" "}
-                            <a href="#!" className="text-body">
-                              <i className="fas fa-angle-down mt-1" /> 
-                            </a>
-                          </p>
+                          <p className="mb-1">Masukan Alamat Yang Valid</p>
                         </div>
                       </div>
                       <div className="card mb-3">
@@ -186,7 +176,7 @@ export default function Cart() {
                                 </div>
                             </div>
                           </div>
-                        )) : <p className="text-center">Belum ada Produk Yang Dipilih</p>}
+                        )) : <p className="text-center text-danger">Tunggu Konfirmasi Dari Admin</p>}
                         </div>
                       </div>
                     </div>
@@ -194,15 +184,9 @@ export default function Cart() {
                       <div className="card bg-primary text-white rounded-3">
                         <div className="card-body">
                           <div className="d-flex justify-content-between align-items-center mb-4">
-                            <h5 className="mb-0">Card details</h5>
-                            <img
-                              src="/dist/images/item-4.jpg"
-                              className="img-fluid rounded-3"
-                              style={{ width: 45 }}
-                              alt="Avatar"
-                            />
+                            <h5 className="mb-0 text-white">Card details</h5>
                           </div>
-                          <p className="small mb-2">Card type</p>
+                          <p className="small mb-2">Pembayaran Bisa Melalui</p>
                           <a href="#!" type="submit" className="text-white ml-2">
                             <i className="fa-2x me-2" />
                             - BCA
@@ -225,9 +209,9 @@ export default function Cart() {
                                 type="text"
                                 id="typeName"
                                 className="form-control form-control-lg"
-                                siez={17}
                                 placeholder="Name"
                                 value={name}
+                                required
                                 onChange={(e) => setName(e.target.value)}
                               />
                               <label className="form-label" htmlFor="typeName">
@@ -239,11 +223,10 @@ export default function Cart() {
                                 type="text"
                                 id="typeText"
                                 className="form-control form-control-lg"
-                                siez={17}
                                 placeholder="08123456789"
-                                minLength={11}
-                                maxLength={19}
+                                minLength={10}
                                 value={phone}
+                                required
                                 onChange={(e) => setPhone(e.target.value)}
                               />
                               <label className="form-label" htmlFor="typeText">
@@ -255,11 +238,9 @@ export default function Cart() {
                                 type="text"
                                 id="typeText"
                                 className="form-control form-control-lg"
-                                siez={17}
                                 placeholder="Jl KH Hasyim Ashari"
-                                minLength={19}
-                                maxLength={19}
                                 value={addres}
+                                required
                                 onChange={(e) => setAddres(e.target.value)}
                               />
                               <label className="form-label" htmlFor="typeText">
@@ -285,8 +266,8 @@ export default function Cart() {
                             <p className="mb-2">Rp. 300.000</p>
                           </div> */}
                           <div className="d-flex justify-content-between">
-                            <p className="mb-2">Shipping</p>
-                            <p className="mb-2">Rp. 20.000</p>
+                            <p className="mb-2">Ongkir</p>
+                            <p className="mb-2">Gratis</p>
                           </div>
                           <div className="d-flex justify-content-between mb-4">
                             <p className="mb-2">Total</p>

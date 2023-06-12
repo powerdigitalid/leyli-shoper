@@ -67,7 +67,7 @@ export default function Products() {
             showConfirmButton: false,
             timer: 1500,
           });
-          router.push("/landingpage/cart");
+          // router.push("/landingpage/cart");
         }
       })
       .catch((err) => {
@@ -99,19 +99,19 @@ export default function Products() {
                 <div className="col-md-6 col-lg-4 col-xl-3" key={index}>
                   <div className="card text-center card-product">
                     <div className="card-product__img">
-                      <img className="card-img" src={prod.image} alt />
+                      <img className="card-img" src={prod.image} alt="image" />
                       <ul className="card-product__imgOverlay">
                         <li>
                           <a
-                            className="btn btn-primary"
+                            className="btn btn-outline-primary"
                             href={`/landingpage/view?id=${prod.id}`}
                           >
-                            <i className="ti-eye" />
+                            Lihat
                           </a>
                         </li>
                         <li>
-                          <a className="btn btn-primary" onClick={()=>handleAddBuy(prod.id, prod.price)} >
-                            <i className="ti-shopping-cart" />
+                          <a href="/landingpage/cart"  className="btn btn-outline-primary" onClick={()=>handleAddBuy(prod.id, prod.price)} >
+                            Beli
                           </a>
                         </li>
                       </ul>

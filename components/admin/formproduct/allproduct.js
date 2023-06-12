@@ -61,7 +61,7 @@ export default function Allproduct() {
     handleProduct();
   }, []);
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary mt-2">
         <div className="card-body">
           <div className="colorlib-product">

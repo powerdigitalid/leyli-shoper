@@ -65,7 +65,7 @@ export default function Login() {
                 </div>
                 <div className="col-md-12 form-group">
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     id="name"
                     name="name"

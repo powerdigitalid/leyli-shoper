@@ -99,7 +99,7 @@ export default function Editproduct() {
 
 
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary">
         <div className="card-body">
           <div className="col-12">
@@ -159,11 +159,6 @@ export default function Editproduct() {
                           value = {price}
                           onChange={(e) => setPrice(e.target.value)}
                         />
-                        <div className="input-group-append">
-                          <span className="form-control form-control-sm text-dark">
-                            .00
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -185,7 +180,7 @@ export default function Editproduct() {
               <div className="mb-2 mt-3">
                 <div className="row float-right">
                   <button className="btn btn-success" type="submit">
-                    <i className="fas fa-plus fa-fw "></i> Tambah
+                    Edit
                   </button>
                 </div>
               </div>
