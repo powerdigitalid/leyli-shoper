@@ -3,6 +3,7 @@ import React from "react";
 import {useRouter} from 'next/router';
 import { useEffect, useState } from "react";
 import { removeCookie } from "../../../libs/cookie.lib";
+import Swal from "sweetalert2";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -10,7 +11,12 @@ export default function Sidebar() {
 
   const handelLogout = () => {
     removeCookie("token");
-    alert("Logout Success");
+    Swal.fire({
+      icon: "success",
+      title: "Logout berhasil",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     router.push("/");
   };
 

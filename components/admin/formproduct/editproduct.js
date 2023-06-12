@@ -1,45 +1,101 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
+// import {moneyFormat} from '../../../helpers'
+import Swal from 'sweetalert2'
 import {useRouter} from 'next/router'
 
 export default function Editproduct() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState(null)
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [desc, setDesc] = useState('')
+  const [filename, setFilename] = useState('')
   const router = useRouter()
+  const { id } = router.query
 
-  const handleUpdateImg = (e) => {
-    setImage(e.target.files[0])
+
+  const handleUpload = (event) => {
+    setImage(event.target.files[0]);
+    try {
+      if (!event.target.files || event.target.files.length == 0) {
+        throw new Error('Pilih file untuk diunggah!')
+      }
+      const file = event.target.files[0]
+      const fileExt = file.name.split('.').pop()
+      setFilename(file.name)
+      console.log(fileExt)
+      const parse = Papa.parse(file, {
+        delimiter: ";",
+        header: true,
+        complete: (res) => {
+          setParsedData(res)
+        }
+      })
+    } catch (error) {
+      // toast.error("Image gagal diupload");
+      console.error(error)
+    }
   }
 
-  const handleUpdateProduct = (e) => {
+  const handleEditProd = async (id) => {
+    try {
+      const res = await fetch(`/api/produk/${id}`)
+      const json = await res.json()
+      setData(json.data)
+      setName(json.data.name)
+      setPrice(json.data.price)
+      setDesc(json.data.desc)
+      setImage(json.data.image)
+      setLoading(false)
+    } catch (error) {
+      setError(true)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      handleEditProd(id)
+    }
+  }, [id])
+
+  // const handleUpdateImg = (e) => {
+  //   setImage(e.target.files[0])
+  // }
+  const handleUpdateProduct = async (e) => {
     e.preventDefault()
     const data = new FormData()
+    data.append('image', image)
     data.append('name', name)
     data.append('price', price)
-    data.append('image', image)
     data.append('desc', desc)
-    setLoading(true)
-    //api update product by id
-    fetch(`/api/produk/update?id=${router.query.id}`, {
-      method: 'PUT',
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false)
-        alert('Produk berhasil diupdate')
-        router.push('/admin/produk')
+    try {
+      const res = await fetch(`/api/produk/update?id=${id}`, {
+        method: 'PUT',
+        body: data,
       })
-      .catch((err) => {
-        console.log(err)
-        setLoading(false)
-        alert('Produk gagal diupdate')
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      Swal.fire({
+        title: 'Sukses',
+        text: json.message,
+        icon: 'success',
+        confirmButtonText: 'Ok'
       })
+      router.push('/admin/produk')
+      console.log(json)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
   }
+
 
 
   return (
@@ -48,14 +104,14 @@ export default function Editproduct() {
         <div className="card-body">
           <div className="col-12">
             <div className="">
-              <h2>Update Product</h2>
+              <h2>Tambahkan Product</h2>
             </div>
           </div>
           <form onSubmit={handleUpdateProduct}>
             <div className="author-box-left">
               <img
                 alt="image"
-                src="/dist/images/item-1.jpg"
+                src={`http://localhost:3000/${image}`}
                 className="m-2 author-box-picture"
                 style={{ width: "150px", height: "150px" }}
               />
@@ -65,10 +121,10 @@ export default function Editproduct() {
                   type="file"
                   className="custom-file-input form-control-sm"
                   id="customFile"
-                  onChange={handleUpdateImg}
+                  onChange={handleUpload}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
-                  Choose file
+                  {filename}
                 </label>
               </div>
             </div>
