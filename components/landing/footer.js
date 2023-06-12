@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="footer-area">
           <div className="container">
             <div className="row section_gap">

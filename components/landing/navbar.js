@@ -62,33 +62,6 @@ export default function Navbar() {
                     >
                       Produk
                     </a>
-                    <ul className="dropdown-menu">
-                      <li className="nav-item">
-                        <a className="nav-link" href="category.html">
-                          Shop Category
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="single-product.html">
-                          Product Details
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="checkout.html">
-                          Product Checkout
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="confirmation.html">
-                          Confirmation
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="cart.html">
-                          Shopping Cart
-                        </a>
-                      </li>
-                    </ul>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/#contact">
