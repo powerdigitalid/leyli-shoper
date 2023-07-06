@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import {useRouter} from 'next/router';
 import Swal from "sweetalert2";
+import { useSession, signIn } from "next-auth/react";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -12,6 +13,7 @@ export default function Products() {
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const handleProduct = () => {
     fetch("/api/produk/all", {
@@ -35,20 +37,22 @@ export default function Products() {
 
   //button buy add to chart
   const handleAddBuy = (id, price) => {
-    fetch("/api/orders/create", {
-      method: "POST",
-      body: JSON.stringify({
-        name: "",
-        date: new Date(),
-        total: parseInt(price),
-        productId: id,
-        addres: "",
-        phone: "",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if(session){
+      fetch('/api/orders/create', {
+        method: "POST",
+        body: JSON.stringify({
+          name: "",
+          email: session.user.email,
+          date: new Date(),
+          total: parseInt(price),
+          productId: id,
+          addres: "",
+          phone: "",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
@@ -59,8 +63,8 @@ export default function Products() {
             showConfirmButton: false,
             timer: 1500,
           });
-
-        } else {
+        }
+        else {
           Swal.fire({
             icon: "success",
             title: "Berhasil ditambahkan ke keranjang",
@@ -79,6 +83,15 @@ export default function Products() {
           timer: 1500,
         });
       });
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Silahkan login terlebih dahulu",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      signIn();
+    }
   };
 
   useEffect(() => {

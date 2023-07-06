@@ -146,13 +146,25 @@ export default function Tabelpemesanan() {
                               Name
                             </th>
                             <th
+                              className="sorting_asc"
+                              tabIndex={0}
+                              aria-controls="dataTable"
+                              rowSpan={1}
+                              colSpan={1}
+                              aria-sort="ascending"
+                              aria-label="Name: activate to sort column descending"
+                              style={{ width: "100.781px" }}
+                            >
+                              Email
+                            </th>
+                            <th
                               className="sorting"
                               tabIndex={0}
                               aria-controls="dataTable"
                               rowSpan={1}
                               colSpan={1}
                               aria-label="Position: activate to sort column ascending"
-                              style={{ width: "100.031px" }}
+                              style={{ width: "40px" }}
                             >
                               Nomor Hp
                             </th>
@@ -174,7 +186,7 @@ export default function Tabelpemesanan() {
                               rowSpan={1}
                               colSpan={1}
                               aria-label="Office: activate to sort column ascending"
-                              style={{ width: "200.953px" }}
+                              style={{ width: "250.953px" }}
                             >
                               Action
                             </th>
@@ -185,6 +197,7 @@ export default function Tabelpemesanan() {
                         {data.length > 0 ? data.map((ord, index) => (
                           <tr role="row" className="odd" key={index}>
                             <td className="sorting_1">{ord.name}</td>
+                            <td>{ord.email}</td>
                             <td>{ord.phone}</td>
                             <td>{ord.addres}</td>
                             <td>

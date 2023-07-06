@@ -1,5 +1,5 @@
 import NextAuth from "next-auth/next";
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -10,5 +10,12 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  secret: process.env.JWT_SECRET,
+  session: {
+    jwt: true,
+    //30 menit
+    maxAge: 30 * 60,
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
 });

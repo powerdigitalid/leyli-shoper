@@ -69,6 +69,18 @@ export default function Tabelhistory() {
                               Name
                             </th>
                             <th
+                              className="sorting_asc"
+                              tabIndex={0}
+                              aria-controls="dataTable"
+                              rowSpan={1}
+                              colSpan={1}
+                              aria-sort="ascending"
+                              aria-label="Name: activate to sort column descending"
+                              style={{ width: "148.781px" }}
+                            >
+                              Email
+                            </th>
+                            <th
                               className="sorting"
                               tabIndex={0}
                               aria-controls="dataTable"
@@ -109,6 +121,7 @@ export default function Tabelhistory() {
                         {data.length > 0 ? data.map((ord, index) => (
                           <tr role="row" className="odd" key={index}>
                             <td className="sorting_1">{ord.name}</td>
+                            <td>{ord.email}</td>
                             <td>{ord.phone}</td>
                             <td>
                               <Link href={`/admin/history/detail?id=${ord.id}`} className="btn btn-primary">Detail</Link>
