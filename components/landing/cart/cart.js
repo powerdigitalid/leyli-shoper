@@ -176,7 +176,7 @@ export default function Cart() {
                                 </div>
                             </div>
                           </div>
-                        )) : <p className="text-center text-danger">Tunggu Konfirmasi Dari Admin</p>}
+                        )) : <p className="text-center text-danger">Tunggu Konfirmasi Dari Admin atau hubungi link dibawah <br/> <a className='btn btn-primary' href="https://wa.me/+6285931230215" target="_blank">Hubungi Admin</a></p>}
                         </div>
                       </div>
                     </div>
@@ -189,19 +189,19 @@ export default function Cart() {
                           <p className="small mb-2">Pembayaran Bisa Melalui</p>
                           <a href="#!" type="submit" className="text-white ml-2">
                             <i className="fa-2x me-2" />
-                            - BCA
-                          </a>
+                            - BCA 26979669785
+                          </a><br />
                           <a href="#!" type="submit" className="text-white ml-2">
                             <i className="fa-2x me-2" />
-                            - BNI
-                          </a>
+                            - BNI 16768756858
+                          </a><br />
                           <a href="#!" type="submit" className="text-white ml-2">
                             <i className="fa-2x me-2" />
-                            - BRI
-                          </a>
+                            - BRI 76758675758
+                          </a><br />
                           <a href="#!" type="submit" className="text-white ml-2">
                             <i className="fa-2x" />
-                            - Mandiri
+                            - Mandiri 1976865643
                           </a>
                           <form className="mt-4" onSubmit={handleUpdateOrder}>
                             <div className="form-outline form-white mb-4">
