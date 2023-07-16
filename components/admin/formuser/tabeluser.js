@@ -1,5 +1,6 @@
 import React from "react";
 import {useState, useEffect} from 'react'
+import Swal from 'sweetalert2'
 
 export default function Tabeluser() {
   const [data, setData] = useState([]);
@@ -37,18 +38,28 @@ export default function Tabeluser() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
+          Swal.fire({
+            icon: "success",
+            title: "Data berhasil dihapus",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           handleUser();
-          alert("Data berhasil dihapus");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Data gagal dihapus");
+        Swal.fire({
+          icon: "error",
+          title: "Data gagal dihapus",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary mt-2">
         <div className="card-body">
           <div className="col-lg-12">
@@ -63,21 +74,6 @@ export default function Tabeluser() {
                   id="dataTable_wrapper"
                   className="dataTables_wrapper dt-bootstrap4"
                 >
-                  <div className="row">
-                    <div className="col-sm-12 col-md-6">
-                      <div id="dataTable_filter" className="dataTables_filter">
-                        <label>
-                          Search:
-                          <input
-                            type="search"
-                            className="form-control form-control-sm"
-                            placeholder
-                            aria-controls="dataTable"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  </div>
                   <div className="row">
                     <div className="col-sm-12">
                       <table
@@ -124,25 +120,12 @@ export default function Tabeluser() {
                             </th>
                           </tr>
                         </thead>
-                        <tfoot>
-                          <tr>
-                            <th rowSpan={1} colSpan={1}>
-                              Name
-                            </th>
-                            <th rowSpan={1} colSpan={1}>
-                              Email
-                            </th>
-                            <th rowSpan={1} colSpan={1}>
-                              Action
-                            </th>
-                          </tr>
-                        </tfoot>
                         <tbody>
                         {data.length > 0 ? data.map((users, index) => (
                           <tr role="row" className="odd" key={index}>
                             <td className="sorting_1">{users.username}</td>
                             <td>{users.password}</td>
-                            <td><button className="btn btn-danger" onClick={handleDeleteData}>Hapus</button></td>
+                            <td><button className="btn btn-danger" onClick= {() => handleDeleteData(users.id)}>Delete</button></td>
                           </tr>
                           )) : (
                             <tr>
@@ -151,66 +134,6 @@ export default function Tabeluser() {
                         )}
                         </tbody>
                       </table>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-sm-12 col-md-5">
-                      <div
-                        className="dataTables_info"
-                        id="dataTable_info"
-                        role="status"
-                        aria-live="polite"
-                      >
-                        Showing 1 to 57 of 57 entries
-                      </div>
-                    </div>
-                    <div className="col-sm-12 col-md-7">
-                      <div
-                        className="dataTables_paginate paging_simple_numbers"
-                        id="dataTable_paginate"
-                      >
-                        <ul className="pagination">
-                          <li
-                            className="paginate_button page-item previous disabled"
-                            id="dataTable_previous"
-                          >
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx={0}
-                              tabIndex={0}
-                              className="page-link"
-                            >
-                              Previous
-                            </a>
-                          </li>
-                          <li className="paginate_button page-item active">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx={1}
-                              tabIndex={0}
-                              className="page-link"
-                            >
-                              1
-                            </a>
-                          </li>
-                          <li
-                            className="paginate_button page-item next disabled"
-                            id="dataTable_next"
-                          >
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx={2}
-                              tabIndex={0}
-                              className="page-link"
-                            >
-                              Next
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
                     </div>
                   </div>
                 </div>

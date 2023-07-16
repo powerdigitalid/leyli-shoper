@@ -14,7 +14,12 @@ config.autoAddCss = false
 import "../public/dist/admin/css/ruang-admin.min.css"
 // import "../public/dist/admin/css/style.css"
 // import "../public/dist/admin/css/jquery.mCustomScrollbar.css"
+import { SessionProvider } from "next-auth/react";
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <>
+  <SessionProvider session={pageProps.session}>
+  <Component {...pageProps} />
+</SessionProvider>
+</>
 }

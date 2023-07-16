@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="footer-area">
           <div className="container">
             <div className="row section_gap">
@@ -9,7 +9,7 @@ export default function Footer() {
                 <div className="single-footer-widget tp_widgets">
                   <h4 className="footer_title large_title">Our Mission</h4>
                   <p>
-                    So seed seed green that winged cattle in. Gathering thing
+                    So seed green that winged cattle in. Gathering thing
                     made fly you're no divided deep moved us lan Gathering thing
                     us land years living.
                   </p>

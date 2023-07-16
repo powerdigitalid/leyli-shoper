@@ -1,6 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
+import {useRouter} from 'next/router';
+import Swal from "sweetalert2";
+import { useSession, signIn } from "next-auth/react";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -9,6 +12,8 @@ export default function Products() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   const handleProduct = () => {
     fetch("/api/produk/all", {
@@ -32,32 +37,61 @@ export default function Products() {
 
   //button buy add to chart
   const handleAddBuy = (id, price) => {
-    fetch("/api/orders/create", {
-      method: "POST",
-      body: JSON.stringify({
-        name: "",
-        date: new Date(),
-        total: parseInt(price),
-        productId: id,
-        addres: "",
-        phone: "",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if(session){
+      fetch('/api/orders/create', {
+        method: "POST",
+        body: JSON.stringify({
+          name: "",
+          email: session.user.email,
+          date: new Date(),
+          total: parseInt(price),
+          productId: id,
+          addres: "",
+          phone: "",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Berhasil ditambahkan ke keranjang");
-        } else {
-          alert("Berhasil ditambahkan ke keranjang");
+          router.push("/landingpage/cart");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil ditambahkan ke keranjang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+        else {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil ditambahkan ke keranjang",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          // router.push("/landingpage/cart");
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Terjadi kesalahan. Silakan coba lagi.");
+        Swal.fire({
+          icon: "error",
+          title: "Gagal ditambahkan ke keranjang",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Silahkan login terlebih dahulu",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      signIn();
+    }
   };
 
   useEffect(() => {
@@ -78,19 +112,19 @@ export default function Products() {
                 <div className="col-md-6 col-lg-4 col-xl-3" key={index}>
                   <div className="card text-center card-product">
                     <div className="card-product__img">
-                      <img className="card-img" src={prod.image} alt />
+                      <img className="card-img" src={prod.image} alt="image" />
                       <ul className="card-product__imgOverlay">
                         <li>
                           <a
-                            className="btn btn-primary"
-                            href="/landingpage/view"
+                            className="btn btn-outline-primary"
+                            href={`/landingpage/view?id=${prod.id}`}
                           >
-                            <i className="ti-eye" />
+                            Lihat
                           </a>
                         </li>
                         <li>
-                          <a className="btn btn-primary" onClick={()=>handleAddBuy(prod.id, prod.price)} >
-                            <i className="ti-shopping-cart" />
+                          <a href="/landingpage/cart"  className="btn btn-outline-primary" onClick={()=>handleAddBuy(prod.id, prod.price)} >
+                            Beli
                           </a>
                         </li>
                       </ul>

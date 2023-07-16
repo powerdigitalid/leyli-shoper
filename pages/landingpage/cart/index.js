@@ -1,13 +1,15 @@
 import React from 'react'
 import Cart from '../../../components/landing/cart/cart'
 import Layout from '../../../components/landing/layout'
+import {useSession, signIn} from 'next-auth/react'
 
 export default function index() {
-  return (
-    <div>
+  const {data: session, status} = useSession();
+    return (
+      <>
         <Layout>
-            <Cart />
+          <Cart />
         </Layout>
-    </div>
-  )
+      </>
+    )
 }

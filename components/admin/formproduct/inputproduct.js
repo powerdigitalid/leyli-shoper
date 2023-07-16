@@ -1,6 +1,7 @@
 import React from "react";
-import {useState, useEffect} from "react";
-import {useRouter} from 'next/router';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 export default function Inputproduct() {
   const [name, setName] = useState("");
@@ -8,13 +9,33 @@ export default function Inputproduct() {
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [filename, setFilename] = useState('')
   const router = useRouter();
 
-  const handleImgChangge =(e)=>{
-    setImage(e.target.files[0]);
+  const handleUpload = (event) => {
+    setImage(event.target.files[0]);
+    try {
+      if (!event.target.files || event.target.files.length == 0) {
+        throw new Error("Pilih file untuk diunggah!");
+      }
+      const file = event.target.files[0];
+      const fileExt = file.name.split(".").pop();
+      setFilename(file.name);
+      console.log(fileExt);
+      const parse = Papa.parse(file, {
+        delimiter: ";",
+        header: true,
+        complete: (res) => {
+          setParsedData(res);
+        },
+      });
+    } catch (error) {
+      // toast.error("Image gagal diupload");
+      console.error(error);
+    }
   };
 
-  const handleAddProduct =(e)=>{
+  const handleAddProduct = (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("name", name);
@@ -33,18 +54,28 @@ export default function Inputproduct() {
         setPrice("");
         setDesc("");
         setImage(null);
-        alert("Produk berhasil ditambahkan");
+        Swal.fire({
+          icon: "success",
+          title: "Produk berhasil ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         router.push("/admin/produk");
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        alert("Produk gagal ditambahkan");
+        Swal.fire({
+          icon: "error",
+          title: "Produk gagal ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
-  }
+  };
 
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary">
         <div className="card-body">
           <div className="col-12">
@@ -52,7 +83,7 @@ export default function Inputproduct() {
               <h2>Tambahkan Product</h2>
             </div>
           </div>
-          <form onSubmit={handleAddProduct} >
+          <form onSubmit={handleAddProduct}>
             <div className="author-box-left">
               <img
                 alt="image"
@@ -66,10 +97,10 @@ export default function Inputproduct() {
                   type="file"
                   className="custom-file-input form-control-sm"
                   id="customFile"
-                  onChange={handleImgChangge}
+                  onChange={handleUpload}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
-                  Choose file
+                  {filename}
                 </label>
               </div>
             </div>
@@ -103,11 +134,6 @@ export default function Inputproduct() {
                           value={price}
                           onChange={(e) => setPrice(e.target.value)}
                         />
-                        <div className="input-group-append">
-                          <span className="form-control form-control-sm text-dark">
-                            .00
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>

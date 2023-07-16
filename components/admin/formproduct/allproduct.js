@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 export default function Allproduct() {
   const [data, setData] = useState([]);
@@ -34,10 +35,20 @@ export default function Allproduct() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Produk berhasil dihapus");
+          Swal.fire({
+            icon: "success",
+            title: "Produk berhasil dihapus",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           handleProduct();
         } else {
-          alert("Produk gagal dihapus");
+          Swal.fire({
+            icon: "error",
+            title: "Produk gagal dihapus",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       })
       .catch((err) => {
@@ -50,7 +61,7 @@ export default function Allproduct() {
     handleProduct();
   }, []);
   return (
-    <div>
+    <div className='container-fluid'>
       <div className="card author-box card-primary mt-2">
         <div className="card-body">
           <div className="colorlib-product">
@@ -85,14 +96,14 @@ export default function Allproduct() {
                         <div>
                           {/* <Link href="/admin/produk/detail" className="btn btn-primary btn-sm">Detail</Link> */}
                           <Link
-                            href="/admin/produk/editproduk"
+                            href={`/admin/produk/editproduk?id=${prod.id}`}
                             className="btn btn-success btn-sm mr-1"
                           >
                             Edit
                           </Link>
                           <button
                             className="btn btn-primary btn-sm"
-                            onClick={() => handleDelete(prod._id)}
+                            onClick={() => handleDelete(prod.id)}
                           >
                             Delete
                           </button>

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
                 total: true,
                 date: true,
                 addres: true,
+                email: true,
                 phone: true,
                 product: {
                     select: {

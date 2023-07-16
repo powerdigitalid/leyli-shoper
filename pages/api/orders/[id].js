@@ -1,25 +1,19 @@
 import { prisma } from "../../../libs/prisma.libs";
 
-export default async function getOrderById(req, res) {
-  const orderId = parseInt(req.query.id);
-
-  try {
-    const order = await prisma.order.findUnique({
-      where: {
-        id: orderId,
-      },
-      include: {
-        product: true,
-      },
-    });
-
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+export default function handler(req, res) {
+    const { id } = req.query;
+    if (req.method === 'GET') {
+        prisma.order.findFirst({
+            where: {
+                id: parseInt(id)
+            },
+            include:{
+                product: true
+            }
+        }).then((data) => {
+            res.status(200).json({ data })
+        }).catch((error) => {
+            res.status(400).json({ error })
+        })
     }
-
-    res.status(200).json({data:order});
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
 }

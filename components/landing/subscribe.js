@@ -1,7 +1,7 @@
 export default function Subcribe() {
   return (
     <>
-      <section className="subscribe-position">
+      <section className="subscribe-position" id="contact">
         <div className="container">
           <div className="subscribe text-center">
             <h3 className="subscribe__title">Untuk Mendapatkan Informasi Lebih Lanjut dan Pengaduan</h3>
