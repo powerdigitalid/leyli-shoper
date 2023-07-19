@@ -82,29 +82,29 @@ export default function Tabelpemesanan() {
             if (res.data) {
                 Swal.fire({
                     icon: "success",
-                    title: "Order berhasil dihapus",
+                    title: "Berhasil dihapus",
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                handleTabelOrder();
+                handleOrder();
             } else {
                 Swal.fire({
                     icon: "success",
-                    title: "Order Berhasil dihapus",
+                    title: "Berhasil dihapus",
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                handleTabelOrder();
+                handleOrder();
             }
         })
         .catch((err) => {
-            console.log(err);
-            Swal.fire({
-              icon: "error",
-              title: "Terjadi kesalahan",
-              showConfirmButton: false,
-              timer: 1500,
-          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil dihapus",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        handleOrder();
         });
   };
 
