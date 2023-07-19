@@ -82,18 +82,19 @@ export default function Tabelpemesanan() {
             if (res.data) {
                 Swal.fire({
                     icon: "success",
-                    title: "Berhasil dihapus",
+                    title: "Order berhasil dihapus",
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                handleOrder();
+                handleTabelOrder();
             } else {
                 Swal.fire({
-                    icon: "error",
-                    title: "Gagal dihapus",
+                    icon: "success",
+                    title: "Order Berhasil dihapus",
                     showConfirmButton: false,
                     timer: 1500,
                 });
+                handleTabelOrder();
             }
         })
         .catch((err) => {
@@ -205,7 +206,7 @@ export default function Tabelpemesanan() {
                                 <button className="btn btn-primary">Detail</button>
                                 </Link>
                                 <button className="btn btn-success" onClick={(e) => handleConfirm(e, ord.id)}>Konfirmasi</button>
-                                <button className="btn btn-danger" onClick={() => handleDelete(ord.id)}>Hapus</button>
+                                <button className="btn btn-danger" onClick={(e) => handleDelete(e, ord.id)}>Hapus</button>
                             </td>
                           </tr>
                           )) : <p className="text-center">Belum ada Order</p>}

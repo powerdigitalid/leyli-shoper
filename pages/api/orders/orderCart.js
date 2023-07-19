@@ -52,6 +52,6 @@ export default async function handler(req, res) {
                 id: parseInt(id),
             },
         });
-        res.status(200).json({ data: order });
-    } 
+        res.status(200).json(order);
+    }
 }
